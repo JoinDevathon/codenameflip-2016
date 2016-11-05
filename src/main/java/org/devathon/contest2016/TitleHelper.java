@@ -39,6 +39,25 @@ public class TitleHelper {
         }
     }
 
+//    public static void queueAnimationTitles(Player player, String[] messages, int delay) {
+//        if (delay < 7) {
+//            throw new InvalidParameterException("You cannot specify a delay below 7 because it takes 7 ticks for 1 animation to complete.");
+//        }
+//
+//        int done = 0;
+//        for (String msg : messages) {
+//            done++;
+//
+//            System.out.println("Queued: " + msg + " for " + delay * done + 10  + "ticks");
+//            new BukkitRunnable() {
+//                @Override
+//                public void run() {
+//                    sendAnimationTitle(player, 2, 2, msg, 20, false);
+//                }
+//            }.runTaskLater(DevathonPlugin.getInstance(), delay * done + 10);
+//        }
+//    }
+
     public static void sendAnimationTitle(Player player, Integer fadeIn, Integer fadeOut, String message, Integer delay, boolean subTitle) {
 
         // the animation will have a "type writer feel" to it
@@ -60,6 +79,7 @@ public class TitleHelper {
                     sendSubtitle(player, fadeIn, delay, fadeOut, current);
                 } else {
                     sendTitle(player, fadeIn, delay, fadeOut, current, null);
+                    sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
                 }
 
                 counter++;
@@ -94,6 +114,7 @@ public class TitleHelper {
                                 sendSubtitle(player, fadeIn, delay, fadeOut, newFormatted);
                             } else {
                                 sendTitle(player, fadeIn, delay, fadeOut, newFormatted, null);
+                                sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
                             }
 
                             if (entries.size() == 0) {
@@ -122,6 +143,7 @@ public class TitleHelper {
             Object subtitlePacket;
 
             if (title != null) {
+                title = "&n " + title + " &n";
                 title = ChatColor.translateAlternateColorCodes('&', title);
                 title = title.replaceAll("%player%", player.getDisplayName());
 

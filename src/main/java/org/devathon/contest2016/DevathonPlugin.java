@@ -1,10 +1,7 @@
 package org.devathon.contest2016;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DevathonPlugin extends JavaPlugin implements Listener {
@@ -24,11 +21,11 @@ public class DevathonPlugin extends JavaPlugin implements Listener {
         // put your disable code here
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) { // this is just a test method to test my animation title
-        Player player = event.getPlayer();
-
-        TitleHelper.sendAnimationTitle(player, 5, 5, "Testing", 6, false);
-    }
+//    @EventHandler
+//    public void onJoin(PlayerJoinEvent event) { // this is just a test method to test my animation title
+//        Player player = event.getPlayer();
+//
+//        TitleHelper.sendAnimationTitle(player, 2, 2, "Find the machine.", 8, false);
+//    }
 }
 
