@@ -3,9 +3,13 @@ package org.devathon.contest2016;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class was created on 11/5/16 by @codenameflip
@@ -33,6 +37,72 @@ public class TitleHelper {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void sendAnimationTitle(Player player, Integer fadeIn, Integer fadeOut, String message, Integer delay, boolean subTitle) {
+
+        // the animation will have a "type writer feel" to it
+        // ex: 1: "h", 2: "he", 3: "hel" and so on
+        // then when completed, wait x seconds, then quickly remove all of it
+
+        final String[] splitted = message.split("(?!^)"); // this will turn strings like "hello" into []{ "h", "e", "l", "l", "o" }
+
+        new BukkitRunnable() {
+            int counter = 0;
+            int max = splitted.length - 1; // subtract one to get the index
+            @Override
+            public void run() {
+                String current = ""; // make sure this isnt re-assigning the value every loop
+                current = current + splitted[counter];
+
+                if (subTitle) {
+                    sendSubtitle(player, fadeIn, delay, fadeOut, current);
+                } else {
+                    sendTitle(player, fadeIn, delay, fadeOut, current, null);
+                }
+
+                counter++;
+
+                if (counter > max) {
+                    this.cancel();
+
+                    String finalCurrent = current;
+                    new BukkitRunnable() {
+                        int backwardsCounter = splitted.length - 1; // this will assign the index of the last character.
+
+                        String[] backwardsSplit = finalCurrent.split("(?!^)");
+                        List<String> entries = new ArrayList<>();
+
+                        String newFormatted = "";
+
+                        @Override
+                        public void run() {
+                            if (backwardsCounter == splitted.length - 1) { // if the counter is at the end/start
+                                Collections.addAll(entries, backwardsSplit);
+                            }
+
+                            entries.remove(backwardsCounter);
+
+                            for (String all : entries) {
+                                newFormatted = newFormatted + all;
+                            }
+
+                            if (subTitle) {
+                                sendSubtitle(player, fadeIn, delay, fadeOut, newFormatted);
+                            } else {
+                                sendTitle(player, fadeIn, delay, fadeOut, newFormatted, null);
+                            }
+
+                            if (entries.size() == 0) {
+                                this.cancel();
+                            }
+
+                            backwardsCounter--;
+                        }
+                    }.runTaskTimer(DevathonPlugin.getInstance(), 20 * 3, splitted.length * 10);
+                }
+            }
+        }.runTaskTimer(DevathonPlugin.getInstance(), 0, delay);
     }
 
     public static void sendSubtitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message) {
