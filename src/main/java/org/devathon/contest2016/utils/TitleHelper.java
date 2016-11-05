@@ -1,9 +1,10 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.devathon.contest2016.DevathonPlugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
