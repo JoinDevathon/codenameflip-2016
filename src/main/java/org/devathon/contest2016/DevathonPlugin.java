@@ -3,6 +3,9 @@ package org.devathon.contest2016;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.devathon.contest2016.backend.Backend;
+import org.devathon.contest2016.backend.holograms.HologramLookEvent;
+import org.devathon.contest2016.backend.listeners.LookEvent;
 
 public class DevathonPlugin extends JavaPlugin implements Listener {
 
@@ -12,13 +15,23 @@ public class DevathonPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
-        Bukkit.getPluginManager().registerEvents(this, this);
+        new Backend();
         // put your enable code here
+
+        register(new LookEvent());
+        register(new HologramLookEvent());
     }
 
     @Override
     public void onDisable() {
         // put your disable code here
+        instance = null;
+
+        Backend.getInstance().cleanupHolograms();
+    }
+
+    private void register(Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
 //    @EventHandler

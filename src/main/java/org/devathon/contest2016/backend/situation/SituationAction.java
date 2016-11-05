@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface SituationAction {
 
-    public String name();
+    public String getName();
 
-    public SituationPriority[] priority();
+    public SituationPriority[] getPriority();
 
     public void run(Player player, List<Entity> entities);
 }

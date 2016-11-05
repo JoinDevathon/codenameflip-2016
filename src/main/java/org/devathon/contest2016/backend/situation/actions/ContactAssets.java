@@ -14,13 +14,13 @@ import java.util.List;
 
 public class ContactAssets implements SituationAction {
     @Override
-    public String name() {
+    public String getName() {
         return "Contact assets";
     }
 
     @Override
-    public SituationPriority[] priority() {
-        return new SituationPriority[]{ SituationPriority.IRRELEVANT, SituationPriority.MONITOR, SituationPriority.POTENTIAL, SituationPriority.HIGH };
+    public SituationPriority[] getPriority() {
+        return new SituationPriority[0];
     }
 
     @Override
