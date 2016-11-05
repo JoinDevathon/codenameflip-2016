@@ -50,9 +50,10 @@ public class TitleHelper {
         new BukkitRunnable() {
             int counter = 0;
             int max = splitted.length - 1; // subtract one to get the index
+            String current = ""; // make sure this isnt re-assigning the value every loop
+
             @Override
             public void run() {
-                String current = ""; // make sure this isnt re-assigning the value every loop
                 current = current + splitted[counter];
 
                 if (subTitle) {
@@ -83,6 +84,8 @@ public class TitleHelper {
 
                             entries.remove(backwardsCounter);
 
+                            newFormatted = "";
+
                             for (String all : entries) {
                                 newFormatted = newFormatted + all;
                             }
@@ -99,7 +102,7 @@ public class TitleHelper {
 
                             backwardsCounter--;
                         }
-                    }.runTaskTimer(DevathonPlugin.getInstance(), 20 * 3, splitted.length * 10);
+                    }.runTaskTimer(DevathonPlugin.getInstance(), 10, 3);
                 }
             }
         }.runTaskTimer(DevathonPlugin.getInstance(), 0, delay);
