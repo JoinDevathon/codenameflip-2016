@@ -17,19 +17,20 @@ import java.util.Map;
 
 public class SituationControlCenter implements Listener {
 
-    public Map<Player, Situation> inSituation = new HashMap<>();
+    private static Map<Player, Situation> inSituation = new HashMap<>();
 
-    public Map<Player, Situation> getInSituation() {
+    private static Map<Player, Situation> getInSituation() {
         return inSituation;
     }
 
     public static void dispatchSituationAlert(Player player, Situation situation) {
+        inSituation.put(player, situation);
         DevathonPlugin.C.alert(player,
                 new String[] {
                         "I have detected imminent danger, I urge you to act upon this situation immediately",
                         " ",
                         "The cause of the threat is due to a/an " + situation.getCause().getIdentifier(),
-                        "How I shall neutralize the situation? Click on an option below to confirm your choice."
+                        "How I shall neutralize the situation? "
                 }
         );
 
@@ -38,7 +39,7 @@ public class SituationControlCenter implements Listener {
         int counter = 0;
         for (SituationAction situationAction : situation.getPriority().getListActions()) {
             counter++;
-            DevathonPlugin.C.m(player, " &7&l[" + counter + "] &f" + situationAction.getName() + ": &e&o" + situationAction.getDesciption());
+            DevathonPlugin.C.m(player, "&7&l[" + counter + "] &f" + situationAction.getName() + ": &e&o" + situationAction.getDesciption());
         }
 
         DevathonPlugin.C.m(player, "Type in chat the number of the option you would like me to perform.");
@@ -49,6 +50,7 @@ public class SituationControlCenter implements Listener {
         Player player = event.getPlayer();
 
         if (getInSituation().containsKey(player)) {
+            event.setCancelled(true);
             String message = event.getMessage();
 
             try {
@@ -60,7 +62,9 @@ public class SituationControlCenter implements Listener {
                     int desiredIndex = parsed - 1;
 
                     getInSituation().get(player).getPriority().getListActions().get(desiredIndex).run(player, getInSituation().get(player).getEntities());
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "Performing...", 11, false);
+                    TitleHelper.sendAnimationTitle(player, 2, 2, "Performing...", 6, false);
+
+                    getInSituation().remove(player);
                 } else {
                     // otherwise
                     DevathonPlugin.C.m(player, "Invalid option specified. The value you entered was not an existing action.");

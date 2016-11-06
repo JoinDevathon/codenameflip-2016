@@ -17,13 +17,13 @@ public enum SituationPriority {
             new ContactAssets()
     } ),
     MONITOR( new SituationAction[]{
-
+            new ContactAssets()
     } ),
     POTENTIAL( new SituationAction[]{
-
+            new ContactAssets()
     } ),
     HIGH( new SituationAction[]{
-
+            new ContactAssets()
     } )
     ;
 
