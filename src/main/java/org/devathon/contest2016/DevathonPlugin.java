@@ -57,7 +57,7 @@ public class DevathonPlugin extends JavaPlugin implements Listener {
 
         public static void alert(Player player, String[] messages) {
             player.sendMessage(color("&c&m---------------------------------------"));
-            player.sendMessage(color("   &f&lSamartian Alert"));
+            player.sendMessage(color("   &f&lSamaritan Alert"));
 
             for (String message : messages) {
                 player.sendMessage(color("   &7" + message));

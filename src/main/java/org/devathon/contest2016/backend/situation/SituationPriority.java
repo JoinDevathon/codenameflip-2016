@@ -1,5 +1,7 @@
 package org.devathon.contest2016.backend.situation;
 
+import org.devathon.contest2016.backend.situation.actions.ContactAssets;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 public enum SituationPriority {
 
     IRRELEVANT( new SituationAction[]{
-
+            new ContactAssets()
     } ),
     MONITOR( new SituationAction[]{
 
