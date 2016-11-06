@@ -24,25 +24,27 @@ public class SituationControlCenter implements Listener {
     }
 
     public static void dispatchSituationAlert(Player player, Situation situation) {
-        inSituation.put(player, situation);
-        DevathonPlugin.C.alert(player,
-                new String[] {
-                        "I have detected imminent danger, I urge you to act upon this situation immediately",
-                        " ",
-                        "The cause of the threat is due to a/an " + situation.getCause().getIdentifier(),
-                        "How I shall neutralize the situation? "
-                }
-        );
+        if (!inSituation.containsKey(player)) {
+            inSituation.put(player, situation);
+            DevathonPlugin.C.alert(player,
+                    new String[] {
+                            "I have detected imminent danger, I urge you to act upon this situation immediately",
+                            " ",
+                            "The cause of the threat is due to a/an " + situation.getCause().getIdentifier(),
+                            "How I shall neutralize the situation? "
+                    }
+            );
 
-        DevathonPlugin.C.m(player, " ");
+            DevathonPlugin.C.m(player, " ");
 
-        int counter = 0;
-        for (SituationAction situationAction : situation.getPriority().getListActions()) {
-            counter++;
-            DevathonPlugin.C.m(player, "&7&l[" + counter + "] &f" + situationAction.getName() + ": &e&o" + situationAction.getDesciption());
+            int counter = 0;
+            for (SituationAction situationAction : situation.getPriority().getListActions()) {
+                counter++;
+                DevathonPlugin.C.m(player, "&7&l[" + counter + "] &f" + situationAction.getName() + ": &e&o" + situationAction.getDesciption());
+            }
+
+            DevathonPlugin.C.m(player, "Type in chat the number of the option you would like me to perform.");
         }
-
-        DevathonPlugin.C.m(player, "Type in chat the number of the option you would like me to perform.");
     }
 
     @EventHandler

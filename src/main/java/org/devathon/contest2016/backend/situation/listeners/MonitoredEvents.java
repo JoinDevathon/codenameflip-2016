@@ -57,7 +57,7 @@ public class MonitoredEvents implements Listener {
         Projectile projectile = event.getEntity();
         Player player = null;
 
-        for (Entity nearby : projectile.getNearbyEntities(25, 25, 25)) {
+        for (Entity nearby : projectile.getNearbyEntities(7, 7, 7)) {
             if (nearby instanceof Player) {
                 if (Backend.getInstance().isInMachineMdoe((Player) nearby)) player = (Player) nearby;
             }

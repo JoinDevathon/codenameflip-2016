@@ -1,5 +1,6 @@
 package org.devathon.contest2016.backend.situation;
 
+import org.devathon.contest2016.backend.situation.actions.Airstrike;
 import org.devathon.contest2016.backend.situation.actions.ContactAssets;
 
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public enum SituationPriority {
             new ContactAssets()
     } ),
     HIGH( new SituationAction[]{
-            new ContactAssets()
+            new ContactAssets(),
+            new Airstrike()
     } )
     ;
 
