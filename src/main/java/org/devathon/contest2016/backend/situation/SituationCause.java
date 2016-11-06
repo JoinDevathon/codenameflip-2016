@@ -11,7 +11,7 @@ import static org.bukkit.entity.EntityType.*;
 
 public enum SituationCause {
 
-    CREEPER_EXPLODE(CREEPER, "Creeper Explosion"),
+    CREEPER_PRIME(CREEPER, "Creeper Pre-detonation"),
     SKELETON_SHOOT(SKELETON, "Skeleton Shot"),
     ZOMBIE_BITE(ZOMBIE, "Zombie Bite"),
     SPIDER_BITE(SPIDER, "Spider Bite"),

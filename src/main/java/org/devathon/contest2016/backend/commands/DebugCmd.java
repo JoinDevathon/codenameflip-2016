@@ -22,7 +22,7 @@ public class DebugCmd implements CommandExecutor {
     }
 
     private void runSituationDebug(Player sender) {
-        Situation test = new Situation(SituationCause.HOSTILE_APPROACH, sender, null);
+        Situation test = new Situation(SituationCause.HOSTILE_APPROACH, sender, sender.getNearbyEntities(20, 20, 20));
         test.setPriority(SituationPriority.HIGH);
         test.setStatus(SituationStatus.MONITORING);
 

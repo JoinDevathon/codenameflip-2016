@@ -14,6 +14,14 @@ public class Situation {
 
     private SituationCause cause;
     private Player player;
+    private Entity entity;
+
+    public Situation(SituationCause cause, Player player, Entity entity) {
+        this.cause = cause;
+        this.player = player;
+        this.entity = entity;
+    }
+
     private List<Entity> entities;
 
     public Situation(SituationCause cause, Player player, List<Entity> entities) {
@@ -31,6 +39,10 @@ public class Situation {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 
     public List<Entity> getEntities() {

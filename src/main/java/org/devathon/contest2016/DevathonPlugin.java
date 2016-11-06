@@ -8,11 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.devathon.contest2016.backend.Backend;
 import org.devathon.contest2016.backend.commands.DebugCmd;
 import org.devathon.contest2016.backend.situation.SituationControlCenter;
-import org.devathon.contest2016.utils.TitleHelper;
+import org.devathon.contest2016.backend.situation.listeners.MonitoredEvents;
 
 public class DevathonPlugin extends JavaPlugin implements Listener {
 
@@ -27,6 +26,8 @@ public class DevathonPlugin extends JavaPlugin implements Listener {
 
         register(this);
         register(new SituationControlCenter());
+        register(new MonitoredEvents());
+
         register("debug", new DebugCmd());
     }
 
@@ -48,43 +49,45 @@ public class DevathonPlugin extends JavaPlugin implements Listener {
     public void onJoin(PlayerJoinEvent event) { // this is just a test method to test my animation title
         Player player = event.getPlayer();
 
+        Backend.getInstance().inMachineMode.add(player);
+
         // this code is hacky /shurg
 
-        new BukkitRunnable() {
-            boolean p1 = false;
-            boolean p2 = false;
-            boolean p3 = false;
-            boolean p4 = false;
-            boolean p5 = false;
-
-            @Override
-            public void run() {
-                if (!p1) {
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "Welcome.", 10, false);
-                    p1 = true;
-                }
-
-                if (!p2) {
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "Im glad you could make it", 7, false);
-                    p2 = true;
-                }
-
-                if (!p3) {
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "I've been waiting...", 8, false);
-                    p3 = true;
-                }
-
-                if (!p4) {
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "So let's start.", 8, false);
-                    p4 = true;
-                }
-
-                if (!p5) {
-                    TitleHelper.sendAnimationTitle(player, 2, 2, "I am Samaritan.", 11, false);
-                    p5 = true;
-                }
-            }
-        }.runTaskTimer(this, 0, 15);
+//        new BukkitRunnable() {
+//            boolean p1 = false;
+//            boolean p2 = false;
+//            boolean p3 = false;
+//            boolean p4 = false;
+//            boolean p5 = false;
+//
+//            @Override
+//            public void run() {
+//                if (!p1) {
+//                    TitleHelper.sendAnimationTitle(player, 2, 2, "Welcome.", 10, false);
+//                    p1 = true;
+//                }
+//
+//                if (!p2) {
+//                    TitleHelper.sendAnimationTitle(player, 2, 2, "Im glad you could make it", 7, false);
+//                    p2 = true;
+//                }
+//
+//                if (!p3) {
+//                    TitleHelper.sendAnimationTitle(player, 2, 2, "I've been waiting...", 8, false);
+//                    p3 = true;
+//                }
+//
+//                if (!p4) {
+//                    TitleHelper.sendAnimationTitle(player, 2, 2, "So let's start.", 8, false);
+//                    p4 = true;
+//                }
+//
+//                if (!p5) {
+//                    TitleHelper.sendAnimationTitle(player, 2, 2, "I am Samaritan.", 11, false);
+//                    p5 = true;
+//                }
+//            }
+//        }.runTaskTimer(this, 0, 15);
 
 
     }
