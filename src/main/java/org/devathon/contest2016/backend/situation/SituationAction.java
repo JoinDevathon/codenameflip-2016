@@ -14,6 +14,8 @@ public interface SituationAction {
 
     public String getName();
 
+    public String getDesciption();
+
     public SituationPriority[] getPriority();
 
     public void run(Player player, List<Entity> entities);

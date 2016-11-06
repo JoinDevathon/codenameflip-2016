@@ -19,12 +19,17 @@ public class ContactAssets implements SituationAction {
     }
 
     @Override
+    public String getDesciption() {
+        return "Dispatch a request to all nearby assets to terminate the threat.";
+    }
+
+    @Override
     public SituationPriority[] getPriority() {
         return new SituationPriority[0];
     }
 
     @Override
     public void run(Player player, List<Entity> entities) {
-
+        player.sendMessage("Assets contacted...");
     }
 }

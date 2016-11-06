@@ -1,9 +1,7 @@
 package org.devathon.contest2016.backend;
 
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.devathon.contest2016.backend.holograms.AnchoredHologram;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,36 +56,4 @@ public class Backend {
         // TODO
     }
 
-    public List<AnchoredHologram> holograms = new ArrayList<>();
-
-    public List<AnchoredHologram> getHolograms() {
-        return holograms;
-    }
-
-    public AnchoredHologram getHologram(Entity entity) {
-        for (AnchoredHologram hologram : getHolograms()) {
-            if (hologram.getArmorStand().hasMetadata("aHologram")) {
-                String value = hologram.getArmorStand().getMetadata("aHologram").get(0).asString();
-
-                if (entity.hasMetadata("aHologram")) {
-                    if (entity.getMetadata("aHologram").get(0).asString().equalsIgnoreCase(value)) {
-                        return hologram;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public boolean isHologram(ArmorStand entity) {
-        return entity.hasMetadata("aHologram");
-    }
-
-    public void cleanupHolograms() {
-        for (AnchoredHologram hologram : getHolograms()) {
-            hologram.setHover(false);
-            hologram.kill();
-        }
-    }
 }
