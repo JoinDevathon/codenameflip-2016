@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.devathon.contest2016.DevathonPlugin;
 import org.devathon.contest2016.backend.Backend;
 
@@ -44,7 +45,16 @@ public class AnchoredHologram {
 
         entity.setPassenger(armorStand);
 
-        armorStand.teleport(new Location(entity.getWorld(), entity.getLocation().getX() + getxOffset(), entity.getLocation().getY() + getyOffset(), entity.getLocation().getZ() + getzOffset()));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                armorStand.teleport(new Location(entity.getWorld(), entity.getLocation().getX() + getxOffset(), entity.getLocation().getY() + getyOffset(), entity.getLocation().getZ() + getzOffset()));
+
+                if (isHover() && getIndicator() != null) {
+                    getIndicator().teleport(new Location(entity.getWorld(), entity.getLocation().getX() + getxOffset(), entity.getLocation().getY() + getyOffset() - .3, entity.getLocation().getZ() + getzOffset()));
+                }
+            }
+        }.runTaskTimer(DevathonPlugin.getInstance(), 0, 17);
     }
 
     private boolean hover;
@@ -103,7 +113,7 @@ public class AnchoredHologram {
         this.hover = hover;
 
         if (hover) {
-            ArmorStand stand = getArmorStand().getWorld().spawn(getArmorStand().getLocation().clone().subtract(0, -.3, 0), ArmorStand.class);
+            ArmorStand stand = getArmorStand().getWorld().spawn(getArmorStand().getLocation().clone().subtract(0, .3, 0), ArmorStand.class);
             stand.setAI(false);
             stand.setVisible(false);
             stand.setGravity(false);

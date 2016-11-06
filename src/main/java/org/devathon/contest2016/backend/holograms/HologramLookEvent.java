@@ -31,9 +31,9 @@ public class HologramLookEvent implements Listener {
                     System.out.println(hologram);
 
                     if (hologram != null) {
-                        hologram.setHover(true);
+                        if (!hologram.isHover()) hologram.setHover(true);
 
-                        TitleHelper.sendAnimationTitle(player, 2, 2, "Looking...", 14, false);
+                        TitleHelper.sendAnimationTitle(player, 2, 2, "Asset located...", 10, false);
 
                         new BukkitRunnable() {
                             @Override

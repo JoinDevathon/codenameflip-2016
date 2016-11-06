@@ -40,7 +40,7 @@ public class LookEvent implements Listener {
 
                         switch (Backend.getInstance().getMark(allNearby)) {
                             case ASSET:
-                                AnchoredHologram h1 = new AnchoredHologram("&e&lAsset #" + new Random().nextInt(4000), allNearby, 0, 10, 0);
+                                AnchoredHologram h1 = new AnchoredHologram("&e&lAsset #" + new Random().nextInt(4000), allNearby, 0, 2, 0);
                                 h1.save();
 
                                 break;

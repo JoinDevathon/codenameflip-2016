@@ -59,75 +59,80 @@ public class TitleHelper {
 //        }
 //    }
 
+    private static List<Player> inAnimation = new ArrayList<>();
+
     public static void sendAnimationTitle(Player player, Integer fadeIn, Integer fadeOut, String message, Integer delay, boolean subTitle) {
+        if (!inAnimation.contains(player)) {
+            inAnimation.add(player);
+            // the animation will have a "type writer feel" to it
+            // ex: 1: "h", 2: "he", 3: "hel" and so on
+            // then when completed, wait x seconds, then quickly remove all of it
 
-        // the animation will have a "type writer feel" to it
-        // ex: 1: "h", 2: "he", 3: "hel" and so on
-        // then when completed, wait x seconds, then quickly remove all of it
+            final String[] splitted = message.split("(?!^)"); // this will turn strings like "hello" into []{ "h", "e", "l", "l", "o" }
 
-        final String[] splitted = message.split("(?!^)"); // this will turn strings like "hello" into []{ "h", "e", "l", "l", "o" }
+            new BukkitRunnable() {
+                int counter = 0;
+                int max = splitted.length - 1; // subtract one to get the index
+                String current = ""; // make sure this isnt re-assigning the value every loop
 
-        new BukkitRunnable() {
-            int counter = 0;
-            int max = splitted.length - 1; // subtract one to get the index
-            String current = ""; // make sure this isnt re-assigning the value every loop
+                @Override
+                public void run() {
+                    current = current + splitted[counter];
 
-            @Override
-            public void run() {
-                current = current + splitted[counter];
+                    if (subTitle) {
+                        sendSubtitle(player, fadeIn, delay, fadeOut, current);
+                    } else {
+                        sendTitle(player, fadeIn, delay, fadeOut, current, null);
+                        sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
+                    }
 
-                if (subTitle) {
-                    sendSubtitle(player, fadeIn, delay, fadeOut, current);
-                } else {
-                    sendTitle(player, fadeIn, delay, fadeOut, current, null);
-                    sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
+                    counter++;
+
+                    if (counter > max) {
+                        this.cancel();
+
+                        String finalCurrent = current;
+                        new BukkitRunnable() {
+                            int backwardsCounter = splitted.length - 1; // this will assign the index of the last character.
+
+                            String[] backwardsSplit = finalCurrent.split("(?!^)");
+                            List<String> entries = new ArrayList<>();
+
+                            String newFormatted = "";
+
+                            @Override
+                            public void run() {
+                                if (backwardsCounter == splitted.length - 1) { // if the counter is at the end/start
+                                    Collections.addAll(entries, backwardsSplit);
+                                }
+
+                                entries.remove(backwardsCounter);
+
+                                newFormatted = "";
+
+                                for (String all : entries) {
+                                    newFormatted = newFormatted + all;
+                                }
+
+                                if (subTitle) {
+                                    sendSubtitle(player, fadeIn, delay, fadeOut, newFormatted);
+                                } else {
+                                    sendTitle(player, fadeIn, delay, fadeOut, newFormatted, null);
+                                    sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
+                                }
+
+                                if (entries.size() == 0) {
+                                    this.cancel();
+                                    inAnimation.remove(player);
+                                }
+
+                                backwardsCounter--;
+                            }
+                        }.runTaskTimer(DevathonPlugin.getInstance(), 10, 3);
+                    }
                 }
-
-                counter++;
-
-                if (counter > max) {
-                    this.cancel();
-
-                    String finalCurrent = current;
-                    new BukkitRunnable() {
-                        int backwardsCounter = splitted.length - 1; // this will assign the index of the last character.
-
-                        String[] backwardsSplit = finalCurrent.split("(?!^)");
-                        List<String> entries = new ArrayList<>();
-
-                        String newFormatted = "";
-
-                        @Override
-                        public void run() {
-                            if (backwardsCounter == splitted.length - 1) { // if the counter is at the end/start
-                                Collections.addAll(entries, backwardsSplit);
-                            }
-
-                            entries.remove(backwardsCounter);
-
-                            newFormatted = "";
-
-                            for (String all : entries) {
-                                newFormatted = newFormatted + all;
-                            }
-
-                            if (subTitle) {
-                                sendSubtitle(player, fadeIn, delay, fadeOut, newFormatted);
-                            } else {
-                                sendTitle(player, fadeIn, delay, fadeOut, newFormatted, null);
-                                sendSubtitle(player, fadeIn, delay + 10, fadeOut, "&c▲");
-                            }
-
-                            if (entries.size() == 0) {
-                                this.cancel();
-                            }
-
-                            backwardsCounter--;
-                        }
-                    }.runTaskTimer(DevathonPlugin.getInstance(), 10, 3);
-                }
-            }
-        }.runTaskTimer(DevathonPlugin.getInstance(), 0, delay);
+            }.runTaskTimer(DevathonPlugin.getInstance(), 0, delay);
+        }
     }
 
     public static void sendSubtitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message) {
